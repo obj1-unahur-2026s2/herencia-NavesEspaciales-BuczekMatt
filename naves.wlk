@@ -1,7 +1,16 @@
 
 
 class NavesEspaciales{
-    
+
+    var velocidad = 0
+    method acelerar(unNumero) {
+      velocidad+=unNumero
+    }
+    method desacelerar(unNumero) {
+      velocidad-=unNumero
+    }
+
+
 }
 
 class Navebaliza inherits NavesEspaciales{
@@ -41,6 +50,8 @@ class NaveDeCombate inherits NavesEspaciales{
     const mensajes = []
     var estaInvisible = false
     var misilesDesplegados = false
+    
+    
 
     method estaInvisible() {
       return estaInvisible
