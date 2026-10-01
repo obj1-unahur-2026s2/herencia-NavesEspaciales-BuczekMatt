@@ -3,20 +3,39 @@
 class NavesEspaciales{
 
     var velocidad = 0
+    var direccion = 0
     method acelerar(unNumero) {
-      velocidad+=unNumero
+      velocidad = (velocidad + unNumero).min(100000)
     }
     method desacelerar(unNumero) {
-      velocidad-=unNumero
+      velocidad = (velocidad - unNumero).max(0)
     }
-
-
+    method irHaciaElSol() {
+      direccion = 10
+    }
+    method escaparDelSol() {
+      direccion = -10
+    }
+    method ponerseParaleloAlSol() {
+      direccion = 0
+    }
+    method acercarseUnPocoAlSol() {
+      direccion = (direccion + 1).min(10)
+    }
+    method alejarseUnPocoDelSol() {
+      direccion = (direccion - 1).max(-10)
+    }
+    method prepararViaje()
 }
 
 class Navebaliza inherits NavesEspaciales{
     var baliza = "verde"
     method cambiarColorDeBaliza(colorNuevo) {
         baliza = colorNuevo
+    }
+    override method prepararViaje(){
+      self.cambiarColorDeBaliza("verde")
+      self.ponerseParaleloAlSol()
     }
 }
 
@@ -44,6 +63,12 @@ class NaveDePasajeros inherits NavesEspaciales{
     method pasajeros() = pasajeros
     method racionesDeComida() = racionesDeComida
     method cantDeBebidas() = cantDeBebidas
+
+    override method prepararViaje(){
+      self.cargarComida(4*self.pasajeros()) 
+      self.cargarBebida(6*self.pasajeros())
+      self.acercarseUnPocoAlSol()
+    }
 }
 
 class NaveDeCombate inherits NavesEspaciales{
@@ -89,6 +114,12 @@ class NaveDeCombate inherits NavesEspaciales{
     }
 
     method emitioMensaje(unMensaje) {
-      
+      return self.mensajesEmitidos().contains(unMensaje)
+    }
+    override method prepararViaje(){
+      self.ponerseVisible()
+      self.replegarMisiles()
+      self.acelerar(15000)
+      self.emitirMensaje("Saliendo en misión")
     }
 }
