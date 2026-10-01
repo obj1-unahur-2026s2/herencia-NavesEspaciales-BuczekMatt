@@ -4,6 +4,7 @@ class NavesEspaciales{
 
     var velocidad = 0
     var direccion = 0
+    var combustible = 0
     method acelerar(unNumero) {
       velocidad = (velocidad + unNumero).min(100000)
     }
@@ -25,24 +26,35 @@ class NavesEspaciales{
     method alejarseUnPocoDelSol() {
       direccion = (direccion - 1).max(-10)
     }
-    method prepararViaje()
+    method prepararViaje(){
+      self.cargarCombustible(30000)
+      self.acelerar(5000)
+    }
+    method cargarCombustible(litros) {
+      combustible+=litros
+    }
+    method descargarCombustible(litros) {
+      combustible = (combustible - litros).max(0)
+    }
+
 }
 
-class Navebaliza inherits NavesEspaciales{
+class NaveBaliza inherits NavesEspaciales{
     var baliza = "verde"
     method cambiarColorDeBaliza(colorNuevo) {
         baliza = colorNuevo
     }
     override method prepararViaje(){
+      super().prepararViaje()
       self.cambiarColorDeBaliza("verde")
       self.ponerseParaleloAlSol()
     }
 }
 
 class NaveDePasajeros inherits NavesEspaciales{
-    var pasajeros 
-    var racionesDeComida
-    var cantDeBebidas 
+    var pasajeros = 0
+    var racionesDeComida = 0
+    var cantDeBebidas = 0
 
     method cargarComida(unaCantidad) {
       racionesDeComida+=unaCantidad
@@ -65,11 +77,16 @@ class NaveDePasajeros inherits NavesEspaciales{
     method cantDeBebidas() = cantDeBebidas
 
     override method prepararViaje(){
+      super().prepararViaje()
       self.cargarComida(4*self.pasajeros()) 
       self.cargarBebida(6*self.pasajeros())
       self.acercarseUnPocoAlSol()
     }
 }
+class NaveHospital inherits NaveDePasajeros{
+  
+}
+
 
 class NaveDeCombate inherits NavesEspaciales{
     const mensajes = []
@@ -117,6 +134,7 @@ class NaveDeCombate inherits NavesEspaciales{
       return self.mensajesEmitidos().contains(unMensaje)
     }
     override method prepararViaje(){
+      super().prepararViaje()
       self.ponerseVisible()
       self.replegarMisiles()
       self.acelerar(15000)
